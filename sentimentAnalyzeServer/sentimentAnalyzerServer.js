@@ -1,5 +1,27 @@
 const express = require('express');
 const app = new express();
+// Read the .env file
+dotenv.config();
+
+
+// Use .env to connect to Watson NLU
+function getNLUInstance() {
+    let api_key = process.env.API_KEY;
+    let api_url = process.env.API_URL;
+
+    const { IamAuthenticator } = require('ibm-watson/auth');
+    const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+    
+    const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+        version : '2021-01-25',
+        authenticator : new IamAuthenticator({ apikey: api_key,
+    }),
+    serviceUrl : api_url,
+    });
+
+    return naturalLanguageUnderstanding;
+}
+const naturalLanguageUnderstanding = getNLUInstance();
 
 app.use(express.static('client'))
 
