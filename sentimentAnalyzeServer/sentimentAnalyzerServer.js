@@ -1,10 +1,8 @@
 const express = require('express');
 const app = new express();
-// Read the .env file
+const dotenv = require('dotenv');
 dotenv.config();
 
-
-// Use .env to connect to Watson NLU
 function getNLUInstance() {
     let api_key = process.env.API_KEY;
     let api_url = process.env.API_URL;
@@ -21,6 +19,7 @@ function getNLUInstance() {
 
     return naturalLanguageUnderstanding;
 }
+
 const naturalLanguageUnderstanding = getNLUInstance();
 
 app.use(express.static('client'))
